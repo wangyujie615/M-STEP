@@ -15,8 +15,6 @@ The official implementation for the paper. \[[_M-STEP: Multi-Scale Temporal Info
 
 ## Highlights
 
-### :star2: New Video-Level Tracking Framework
-
 <p align="center">
   <img width="85%" src="assets/arch.png" alt="Framework"/>
 </p>
@@ -122,7 +120,7 @@ bash exp.sh
 
 
 ## Test FLOPs, and Speed
-*Note:* The speeds reported in our paper were tested on a single RTX2080Ti GPU.
+*Note:* The speeds reported in our paper were tested on a single RTX3090 GPU.
 
 ```
 python tracking/profile_model.py --script m_step --config baseline
