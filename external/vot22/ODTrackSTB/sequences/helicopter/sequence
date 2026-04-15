@@ -1,0 +1,5 @@
+channels.color=color/%08d.jpg
+format=default
+fps=30
+name=helicopter
+uid=cc9a75bc00b125cab0ff31eca00f7b9549c891d50d621762287c350bae02f7730e48b79fb5ceaa0a0e7d741ae64eecfe588249922b9e802e1cb9b9164620b941

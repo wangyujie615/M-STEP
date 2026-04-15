@@ -1,0 +1,5 @@
+channels.color=color/%08d.jpg
+format=default
+fps=30
+name=snake
+uid=4ae6b665af724a5adf0971aea2a29a32db98babc6f5e374276f3376c0fa1474427e93d17f020b55402b2c57a0dc389ac3e162e2f6db11e5f374f6a7b065c9fce

@@ -1,0 +1,5 @@
+channels.color=color/%08d.jpg
+format=default
+fps=30
+name=wheel
+uid=4dacf0f9a84eec1e95c0f236b506793eb52a170e9ceedc663b0740125b4c86aaac5c7f157d253ac533cab89c8797767b958149985b5f4533fe25520e5c6b5258
