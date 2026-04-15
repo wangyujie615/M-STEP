@@ -2,7 +2,7 @@
 
 The official implementation for the paper. \[[_M-STEP: Multi-Scale Temporal Information Enhancement and Propagation for Hierarchical Visual Transformer Tracking_](https://ieeexplore.ieee.org/abstract/document/11358797)\].
 
-[[Models](https://drive.google.com/drive/folders/17LacrfRO01R75bxU4bgA87eo1b_rX5Gj?usp=sharing)], [[Raw Results](https://drive.google.com/drive/folders/10I7aHb2J4SFTMuQ_LN33VbaiykD_M2hi?usp=sharing)], [[Training logs](https://drive.google.com/drive/folders/1BXnYmnGnSZIA0IR_gwdlDczl0ex4DgFF?usp=sharing)]
+[[Models](https://drive.google.com/drive/folders/1ez0HGXUz52faHHGl1EshdKdTMwoCEbKB?usp=drive_link)], [[Raw Results](https://drive.google.com/drive/folders/1Nf1Ynq1uGx1QSoaRvjKj8CuBzjxaxA6O?usp=drive_link)]
 
 <!-- [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/seqtrack-sequence-to-sequence-learning-for/visual-object-tracking-on-tnl2k)](https://paperswithcode.com/sota/visual-object-tracking-on-tnl2k?p=seqtrack-sequence-to-sequence-learning-for)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/seqtrack-sequence-to-sequence-learning-for/visual-object-tracking-on-lasot)](https://paperswithcode.com/sota/visual-object-tracking-on-lasot?p=seqtrack-sequence-to-sequence-learning-for)
@@ -21,12 +21,8 @@ The official implementation for the paper. \[[_M-STEP: Multi-Scale Temporal Info
   <img width="85%" src="assets/arch.png" alt="Framework"/>
 </p>
 
-m_step is a simple, flexible and effective **video-level tracking pipeline**, which densely associates the contextual relationships of video frames in an online token propagation manner. m_step receives video frames of arbitrary length to capture the spatio-temporal trajectory relationships of an instance, and compresses the discrimination features (localization information) of a target into a token sequence to achieve frame-to-frame association. 
+M-STEP is a simple, flexible and effective tracking pipeline, which densely associates the contextual relationships of video frames in an online token propagation manner. m_step receives video frames of arbitrary length to capture the spatio-temporal trajectory relationships of an instance, and compresses the discrimination features (localization information) of a target into a token sequence to achieve frame-to-frame association. 
 
-This new solution brings the following benefits: 
-1. the purified token sequences can serve as prompts for the inference in the next video frame, whereby past information is leveraged to guide future inference
-
-2. the complex online update strategies are effectively avoided by the iterative propagation of token sequences, and thus m_step can achieves more efficient model representation and computation.
 
 
 ### :star2: Strong Performance
@@ -136,15 +132,3 @@ python tracking/profile_model.py --script m_step --config baseline
 ## Acknowledgments
 * Thanks for the [STARK](https://github.com/researchmm/Stark) and [PyTracking](https://github.com/visionml/pytracking) library, which helps us to quickly implement our ideas.
 
-
-## Citation
-If our work is useful for your research, please consider citing:
-
-```Bibtex
-@inproceedings{zheng2024m_step,
-  title={m_step: Online Dense Temporal Token Learning for Visual Tracking}, 
-  author={Yaozong Zheng and Bineng Zhong and Qihua Liang and Zhiyi Mo and Shengping Zhang and Xianxian Li},
-  booktitle={AAAI},
-  year={2024}
-}
-```
