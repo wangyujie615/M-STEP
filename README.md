@@ -21,12 +21,12 @@ The official implementation for the paper. \[[_M-STEP: Multi-Scale Temporal Info
   <img width="85%" src="assets/arch.png" alt="Framework"/>
 </p>
 
-ODTrack is a simple, flexible and effective **video-level tracking pipeline**, which densely associates the contextual relationships of video frames in an online token propagation manner. ODTrack receives video frames of arbitrary length to capture the spatio-temporal trajectory relationships of an instance, and compresses the discrimination features (localization information) of a target into a token sequence to achieve frame-to-frame association. 
+m_step is a simple, flexible and effective **video-level tracking pipeline**, which densely associates the contextual relationships of video frames in an online token propagation manner. m_step receives video frames of arbitrary length to capture the spatio-temporal trajectory relationships of an instance, and compresses the discrimination features (localization information) of a target into a token sequence to achieve frame-to-frame association. 
 
 This new solution brings the following benefits: 
 1. the purified token sequences can serve as prompts for the inference in the next video frame, whereby past information is leveraged to guide future inference
 
-2. the complex online update strategies are effectively avoided by the iterative propagation of token sequences, and thus ODTrack can achieves more efficient model representation and computation.
+2. the complex online update strategies are effectively avoided by the iterative propagation of token sequences, and thus m_step can achieves more efficient model representation and computation.
 
 
 ### :star2: Strong Performance
@@ -104,23 +104,23 @@ We use [wandb](https://github.com/wandb/client) to record detailed training logs
 
 - LaSOT or other off-line evaluated benchmarks (modify `--dataset` correspondingly)
 ```
-python tracking/test.py odtrack baseline --dataset lasot --runid 300 --threads 8 --num_gpus 2
+python tracking/test.py m_step baseline --dataset lasot --runid 300 --threads 8 --num_gpus 2
 python tracking/analysis_results.py # need to modify tracker configs and names
 ```
 - GOT10K-test
 ```
-python tracking/test.py odtrack baseline_got --dataset got10k_test  --runid 100 --threads 8 --num_gpus 2
-python lib/test/utils/transform_got10k.py --tracker_name odtrack --cfg_name baseline_got_100
+python tracking/test.py m_step baseline_got --dataset got10k_test  --runid 100 --threads 8 --num_gpus 2
+python lib/test/utils/transform_got10k.py --tracker_name m_step --cfg_name baseline_got_100
 ```
 - TrackingNet
 ```
-python tracking/test.py odtrack baseline --dataset trackingnet  --runid 300 --threads 8 --num_gpus 2
-python lib/test/utils/transform_trackingnet.py --tracker_name odtrack --cfg_name baseline_300
+python tracking/test.py m_step baseline --dataset trackingnet  --runid 300 --threads 8 --num_gpus 2
+python lib/test/utils/transform_trackingnet.py --tracker_name m_step --cfg_name baseline_300
 ```
 
-- VOT2020
+- VOT2022
 ```
-cd external/vot20/    <workspace_dir>
+cd external/vot22/    <workspace_dir>
 bash exp.sh
 ```
 
@@ -129,7 +129,7 @@ bash exp.sh
 *Note:* The speeds reported in our paper were tested on a single RTX2080Ti GPU.
 
 ```
-python tracking/profile_model.py --script odtrack --config baseline
+python tracking/profile_model.py --script m_step --config baseline
 ```
 
 
@@ -141,8 +141,8 @@ python tracking/profile_model.py --script odtrack --config baseline
 If our work is useful for your research, please consider citing:
 
 ```Bibtex
-@inproceedings{zheng2024odtrack,
-  title={ODTrack: Online Dense Temporal Token Learning for Visual Tracking}, 
+@inproceedings{zheng2024m_step,
+  title={m_step: Online Dense Temporal Token Learning for Visual Tracking}, 
   author={Yaozong Zheng and Bineng Zhong and Qihua Liang and Zhiyi Mo and Shengping Zhang and Xianxian Li},
   booktitle={AAAI},
   year={2024}
