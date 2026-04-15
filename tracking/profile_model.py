@@ -20,7 +20,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Parse args for training')
     # for train
-    parser.add_argument('--script', type=str, default='odtrack', choices=['odtrack','hivitr','hivitr_time'],
+    parser.add_argument('--script', type=str, default='m_step', choices=['m_step'],
                         help='training script name')
     parser.add_argument('--config', type=str, default='baseline_384_ep300', help='yaml configure file name')
     args = parser.parse_args()
@@ -53,7 +53,7 @@ def evaluate_hivitr(model, template, search):
         print("FPS is %.2f fps" % (1. / avg_lat))
         # for i in range(T_w):
 
-def evaluate_odtrack(model, template, search):
+def evaluate_m_step(model, template, search):
     '''Speed Test'''
     macs1, params1 = profile(model, inputs=(template, search),
                              custom_ops=None, verbose=False)
@@ -162,12 +162,11 @@ if __name__ == "__main__":
     bs = 1
     z_sz = cfg.TEST.TEMPLATE_SIZE
     x_sz = cfg.TEST.SEARCH_SIZE
-    # 修改  odtrack  
-    if args.script == "hivitr_time": #hivitr_time
+    if args.script == "m_step": 
         model_module = importlib.import_module('lib.models')
-        # model_constructor = model_module.build_odtrack
-        model_constructor = model_module.build_hivitr_time
-        # model_constructor = model_module.build_hivitr
+        
+        model_constructor = model_module.build_m_step
+        
         model = model_constructor(cfg, training=False)
         # get the template and search
         template = torch.randn(bs, 3, z_sz, z_sz)
@@ -185,7 +184,7 @@ if __name__ == "__main__":
             
         merge_layer = cfg.MODEL.BACKBONE.MERGE_LAYER
         if merge_layer <= 0:
-            evaluate_odtrack(model, template_list, search_list)
+            evaluate_m_step(model, template_list, search_list)
         else:
             evaluate_vit_separate(model, template, search)
             

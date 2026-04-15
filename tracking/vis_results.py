@@ -161,7 +161,7 @@ if __name__ == '__main__':
     # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ciou', dataset_name, 1, 'update_template'))
 
     # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ep500', dataset_name, None, 'baseline_roi_ep500'))
-    trackers.extend(trackerlist('hivitr_time', 'baseline_mste_tpe_full', dataset_name, 1, ''))
+    trackers.extend(trackerlist('m_step', 'baseline_mste_tpe_full', dataset_name, 1, ''))
     # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_ep300', dataset_name, None, 'cait_small_224_ep300'))
     # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_fcos_new_32x4_ep300', dataset_name, None, 'cait_small_224_fcos_new_32x4_ep300'))
     # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_fcos_cn_32x4_ep300_test_cn', dataset_name, None, 'cait_small_224_fcos_cn_32x4_ep300_test_cn'))

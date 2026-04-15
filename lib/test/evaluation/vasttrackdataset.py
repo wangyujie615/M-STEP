@@ -17,8 +17,8 @@ class VastTrackDataset(BaseDataset):
 
     def __init__(self):
         super().__init__()
-        self.base_path =  '/data2/wangyujie/ODTrack/data/vasttrack'
-        self.txt_file_path ='/data2/wangyujie/ODTrack/data/vasttrack/vasttrack_test_list.txt'
+        self.base_path =  ''
+        self.txt_file_path = ''
         self.sequence_list = self._get_sequence_list()
         self.clean_list = self.clean_seq_list()
 

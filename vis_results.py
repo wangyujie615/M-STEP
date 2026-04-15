@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-
 import torch
 import numpy as np
 import cv2 as cv
@@ -14,7 +13,6 @@ if env_path not in sys.path:
 
 from lib.test.evaluation import trackerlist, get_dataset
 from lib.test.utils.load_text import load_text
-
 
 class VisResults(object):
     def __init__(self):
@@ -131,49 +129,12 @@ if __name__ == '__main__':
     dataset_name = 'lasot' # 数据集名称
 
     trackers = []
-    # trackers.extend(trackerlist('defor_stark_s', 'baseline_got10k_only', None, 'defor_stark'))
-    # trackers.extend(trackerlist('stark_s', 'baseline_got10k_only', None, 'stark'))
-    # trackers.extend(trackerlist('dimp', 'dimp50', dataset_name, None, 'DiMP50'))
-    # trackers.extend(trackerlist('sa', 'attn_direct', None, 'SA')) # ori
-    # trackers.extend(trackerlist('sa', 'attn1', None, 'SA')) # extrat conv to conver backbone feature from 1024 to 32
-    # trackers.extend(trackerlist('sa', 'attn_segaddlabel', None, 'SA')) # add label to seg mask
-
-    # trackers.extend(trackerlist('stark_s', 'baseline_got10k_only_encoder_only_ep500', None, 'STARK-S-Encoder-EP500'))
-    # trackers.extend(trackerlist('stark_motion', 'baseline_got10k_only_ep100_002', None, 'STARK-motion-EP100'))
-    # trackers.extend(
-    #     trackerlist('stark_motion', 'baseline_got10k_only_offset_ep100_001', None, 'STARK-motion-offset-EP100'))
-
-    # trackers.extend(trackerlist('stark_s', 'baseline', dataset_name, None, 'stark_s'))
-    # trackers.extend(trackerlist('stark_st', 'baseline', dataset_name, None, 'stark_st'))
-
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi', dataset_name, None, 'baseline'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi', dataset_name, 17, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi', dataset_name, 32, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi', dataset_name, 36, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ep300', dataset_name, None, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ep300', dataset_name, 6, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ep300', dataset_name, 55, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ep300', dataset_name, 57, 'update_template'))
-
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_upsample_syncbn', dataset_name, None, 'baseline_roi_upsample_syncbn'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi', dataset, 9, 'update_template1'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ciou', dataset_name, None, 'update_template'))
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ciou', dataset_name, 1, 'update_template'))
-
-    # trackers.extend(trackerlist('stark_mem', 'baseline_roi_ep500', dataset_name, None, 'baseline_roi_ep500'))
-    trackers.extend(trackerlist('hivitr_time', 'baseline_mste_tpe_full', dataset_name, 299, 'hivitr_time'))
-    # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_ep300', dataset_name, None, 'cait_small_224_ep300'))
-    # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_fcos_new_32x4_ep300', dataset_name, None, 'cait_small_224_fcos_new_32x4_ep300'))
-    # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_fcos_cn_32x4_ep300_test_cn', dataset_name, None, 'cait_small_224_fcos_cn_32x4_ep300_test_cn'))
-    # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_vfloss_64x2_ep100', dataset_name, None, 'cait_small_224_vfloss_64x2_ep100'))
-    # trackers.extend(trackerlist('vit_tracker', 'cait_small_224_fcos_cn_32x4_ep300_retest', dataset_name, None, 'retest'))
+    
+    trackers.extend(trackerlist('build_m_step', 'baseline_mste_tpe_full', dataset_name, 299, 'm_step'))
+    
 
     dataset = get_dataset(dataset_name)
 
-    # trackers.extend(trackerlist('dimp', 'dimp50', None, 'DiMP50'))
-    # trackers.extend(trackerlist('sa', 'attn_direct', None, 'SA'))
-    # dataset = get_dataset('vot')
-    # 'GOT-10k_Train_001350'
     viser.vis_dataset(dataset, trackers, seq_list=['/lasot/car-6','/lasot/car-2','/lasot/car-17','/lasot/airplane-1'])
     # viser.vis_dataset(dataset, trackers, seq_list=['/lasot/airplane-1'])
     # viser.vis_dataset(dataset, trackers, seq_list=['GOT-10k_Train_007446'])

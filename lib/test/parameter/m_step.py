@@ -1,7 +1,7 @@
 from lib.test.utils import TrackerParams
 import os
 from lib.test.evaluation.environment import env_settings
-from lib.config.odtrack.config import cfg, update_config_from_file
+from lib.config.m_step.config import cfg, update_config_from_file
 
 
 def parameters(yaml_name: str, run_id=None):
@@ -9,7 +9,8 @@ def parameters(yaml_name: str, run_id=None):
     prj_dir = env_settings().prj_dir
     save_dir = env_settings().save_dir
     # update default config from yaml file
-    yaml_file = os.path.join(prj_dir, 'experiments/odtrack/%s.yaml' % yaml_name)
+    # 1
+    yaml_file = os.path.join(prj_dir, 'experiments/m_step/%s.yaml' % yaml_name)
     update_config_from_file(yaml_file)
     params.cfg = cfg
     print("test config: ", cfg)
@@ -21,11 +22,12 @@ def parameters(yaml_name: str, run_id=None):
     params.search_size = cfg.TEST.SEARCH_SIZE
 
     # Network checkpoint path
+    # 2
     if run_id is None:
-        params.checkpoint = os.path.join(save_dir, "checkpoints/train/odtrack/%s/ODTrack_ep%04d.pth.tar" %
+        params.checkpoint = os.path.join(save_dir, "checkpoints/train/m_step/%s/M_STEP_ep%04d.pth.tar" %
                                         (yaml_name, cfg.TEST.EPOCH))
     else:
-        params.checkpoint = os.path.join(save_dir, "checkpoints/train/odtrack/%s/ODTrack_ep%04d.pth.tar" %
+        params.checkpoint = os.path.join(save_dir, "checkpoints/train/m_step/%s/M_STEP_ep%04d.pth.tar" %
                                         (yaml_name, run_id))
     
     # whether to save boxes from all queries

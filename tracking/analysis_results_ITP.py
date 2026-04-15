@@ -20,7 +20,7 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
-    args.script = 'hivitr_time'
+    args.script = 'm_step'
     args.config = 'baseline_mste_tpe_full_16_18_20_299'
     trackers = []
     trackers.extend(trackerlist(args.script, args.config, "lasot", None, args.config))

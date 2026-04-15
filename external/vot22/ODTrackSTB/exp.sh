@@ -1,2 +1,2 @@
-vot evaluate --workspace . ODTrackSTB
-vot analysis --workspace . ODTrackSTB --format json
+vot evaluate --workspace . M-STEPSTB
+vot analysis --workspace . M-STEPSTB --format json

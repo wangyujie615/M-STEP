@@ -11,7 +11,7 @@ from lib.models.m_step.hivit import hivit_base,hivit_small
 from lib.utils.box_ops import box_xyxy_to_cxcywh
 
 
-class HiviTTrack_Time(nn.Module):
+class M_STEP(nn.Module):
     """ This is the base class for MMTrack """
 
     def __init__(self, transformer, box_head, aux_loss=False, head_type="CORNER", token_len=1):
@@ -152,7 +152,7 @@ def build_m_step(cfg, training=True):
 
     box_head = build_box_head(cfg, hidden_dim)
 
-    model = HiviTTrack_Time(
+    model = M_STEP(
         backbone,
         box_head,
         aux_loss=False,

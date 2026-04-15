@@ -1,6 +1,6 @@
-# [AAAI'2024] - ODTrack
+# M-STEP: Multi-Scale Temporal Information Enhancement and Propagation for Hierarchical Visual Transformer Tracking
 
-The official implementation for the **AAAI 2024** paper \[[_ODTrack: Online Dense Temporal Token Learning for Visual Tracking_](https://arxiv.org/abs/2401.01686)\].
+The official implementation for the paper. \[[_M-STEP: Multi-Scale Temporal Information Enhancement and Propagation for Hierarchical Visual Transformer Tracking_](https://ieeexplore.ieee.org/abstract/document/11358797)\].
 
 [[Models](https://drive.google.com/drive/folders/17LacrfRO01R75bxU4bgA87eo1b_rX5Gj?usp=sharing)], [[Raw Results](https://drive.google.com/drive/folders/10I7aHb2J4SFTMuQ_LN33VbaiykD_M2hi?usp=sharing)], [[Training logs](https://drive.google.com/drive/folders/1BXnYmnGnSZIA0IR_gwdlDczl0ex4DgFF?usp=sharing)]
 
@@ -31,18 +31,17 @@ This new solution brings the following benefits:
 
 ### :star2: Strong Performance
 
-| Tracker     | GOT-10K (AO) | LaSOT (AUC) | TrackingNet (AUC) | LaSOT_ext (AUC) | VOT2020 (EAO) | TNL2K (AUC) | OTB(AUC) |
-|:-----------:|:------------:|:-----------:|:-----------------:|:-----------:|:-----------:|:-----------:|:-----------:|
-| ODTrack-L | 78.2         | 74.0        | 86.1              | 53.9          | 0.605          | 61.7          | 72.4          |
-| ODTrack-B | 77.0         | 73.1        | 85.1              | 52.4          | 0.581          | 60.9          | 72.3          |
+| Tracker     | GOT-10K (AO) | LaSOT (AUC) | TrackingNet (AUC) | LaSOT_ext (AUC) | VOT2022-STB (EAO) | VastTrack (AUC) | OTB100 (AUC) | UAV123 (AUC)|
+|:-----------:|:------------:|:-----------:|:-----------------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|
+| M-STEP | 74.0         | 71.6        | 84.8              | 49.6          | 0.604          | 38.5          | 71.6          | 69.1 |
 
 
 
 
 ## Install the environment
 ```
-conda create -n odtrack python=3.8
-conda activate odtrack
+conda create -n m_step python=3.8
+conda activate m_step
 bash install.sh
 ```
 
@@ -90,13 +89,13 @@ Download pre-trained [MAE ViT-Base weights](https://dl.fbaipublicfiles.com/mae/p
 
 ```
 python tracking/train.py \
---script odtrack --config baseline \
+--script m_step --config baseline \
 --save_dir ./output \
 --mode multiple --nproc_per_node 4 \
 --use_wandb 1
 ```
 
-Replace `--config` with the desired model config under `experiments/odtrack`.
+Replace `--config` with the desired model config under `experiments/m_step`.
 
 We use [wandb](https://github.com/wandb/client) to record detailed training logs, in case you don't want to use wandb, set `--use_wandb 0`.
 

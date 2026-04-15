@@ -15,11 +15,7 @@ trackers = []
 # dataset_name = 'lasot_extension_subset'
 dataset_name = 'lasot'
 
-#trackers.extend(trackerlist(name='odtrack', parameter_name='baseline', dataset_name=dataset_name,run_ids=300, display_name='odtrack'))
-# 
-# trackers.extend(trackerlist(name='hivitr', parameter_name='baseline_mstev2_tpe_256', dataset_name=dataset_name,run_ids=290, display_name='hivitr_time'))
-# ms
-trackers.extend(trackerlist(name='hivitr_time', parameter_name='baseline_mste_tpe_full_16_18_20', dataset_name=dataset_name,run_ids=299, display_name='hivitr_time'))
+trackers.extend(trackerlist(name='m_step', parameter_name='baseline_mste_tpe_full_16_18_20', dataset_name=dataset_name,run_ids=299, display_name='m_step'))
 # For VOT evaluate
 dataset = get_dataset(dataset_name)
 # dataset = get_dataset('otb', 'nfs', 'uav', 'tc128ce')
