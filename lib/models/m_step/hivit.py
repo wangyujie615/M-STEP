@@ -45,17 +45,17 @@ class Attention(nn.Module):
             B, N, C = x.shape
             qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
             q, k, v = qkv[0], qkv[1], qkv[2]  
-            # make torchscript happy (cannot use tensor as tuple)
+            
             q_track, q_t, q_s = torch.split(q, [1, lens_z, lens_x], dim=2)
             t_track, k_t, k_s = torch.split(k, [1, lens_z, lens_x], dim=2)
             v_track, v_t, v_s = torch.split(v, [1, lens_z, lens_x], dim=2)
-            # template attention 模版做自注意力
+            
             attn = (q_t @ k_t.transpose(-2, -1)) * self.scale  # (B, head, N_q, N)
             attn = attn.softmax(dim=-1)
             attn = self.attn_drop(attn)
             x_t = rearrange(attn @ v_t, 'b h t d -> b t (h d)')
-            # search region attention 
-            k_ts = torch.cat([k_t, k_s], dim=2) # 可以尝试使用三个特征cat
+           
+            k_ts = torch.cat([k_t, k_s], dim=2)
             v_ts = torch.cat([v_t, v_s], dim=2)
             attn = (q_s @ k_ts.transpose(-2, -1)) * self.scale  # (B, head, N_s, N)
             attn = attn.softmax(dim=-1)
@@ -79,12 +79,12 @@ class Attention(nn.Module):
             q_track,q_t = torch.split(q, [1, N-1], dim=2)
             k_track,k_t = torch.split(k, [1, N-1], dim=2)
             v_track,v_t = torch.split(v, [1, N-1], dim=2)
-            # template attention 模版做自注意力
+           
             attn = (q_t @ k_t.transpose(-2, -1)) * self.scale  # (B, head, N_q, N)
             attn = attn.softmax(dim=-1)
             attn = self.attn_drop(attn)
             x_t = rearrange(attn @ v_t, 'b h t d -> b t (h d)')
-            # track_query attention
+           
             attn = (q_track @ k.transpose(-2, -1)) * self.scale  # (B, head, N_s, N)
             attn = attn.softmax(dim=-1)
             attn = self.attn_drop(attn)
@@ -108,7 +108,7 @@ class MambaLayer(nn.Module):
             expand=expand  # Block expansion factor
         )
     def forward(self, x):
-        # print('x',x.shape)
+        
         B, L, C = x.shape
         x_norm = self.norm(x)
         x_mamba = self.mamba(x_norm)    
