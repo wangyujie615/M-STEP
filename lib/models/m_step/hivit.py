@@ -154,16 +154,6 @@ class Block(nn.Module):
 
         self.norm1 = norm_layer(dim) if with_attn else None
         
-        # 添加Mamba
-        '''self.mamba = (
-            MambaLayer(
-                dim,d_state=64,
-                d_conv=4, 
-                expand=2
-            )
-            if with_attn
-            else None)'''
-        # 需要修改
         self.attn = (
            Attention(
                 dim,
@@ -182,22 +172,13 @@ class Block(nn.Module):
         self.norm2 = norm_layer(dim)
         mlp_hidden_dim = int(dim * mlp_ratio)
         self.mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
-        
-        ## 添加mlp_gate
-        #self.gamma_1 = nn.Parameter(init_values * torch.ones((dim)), requires_grad=True)
-        # self.gamma_2 = nn.Parameter(init_values * torch.ones((dim)), requires_grad=True)
 
     def forward(self, x, lens_z=None,lens_x=None):
         if self.attn is not None:
             x = x + self.drop_path(self.attn(self.norm1(x), lens_z=None,lens_x=None))
             x = x + self.drop_path(self.mlp(self.norm2(x)))
         else:
-            # 计划修改二
-            # x = x + self.drop_path(self.mlp(self.fft(self.norm2(x))))
             x = x + self.drop_path(self.mlp(self.norm2(x)))
-        # x = x + self.drop_path(self.mlp(self.norm2(x))) # [1, 256, 4, 4, 128]
-        # print(x.shape)
-        # x = x + self.drop_path(self.mlp(self.norm2(x)))
         return x
  
 
@@ -272,10 +253,6 @@ class PatchEmbed1(nn.Module):
         self.norm = norm_layer(embed_dim) if norm_layer else nn.Identity()
 
     def forward(self, x):
-        # allow different input size
-        # B, C, H, W = x.shape
-        # _assert(H == self.img_size[0], f"Input image height ({H}) doesn't match model ({self.img_size[0]}).")
-        # _assert(W == self.img_size[1], f"Input image width ({W}) doesn't match model ({self.img_size[1]}).")
         x = self.proj(x)
         B, C, H, W = x.shape
         if self.flatten:
@@ -300,14 +277,10 @@ class SPPLayer(torch.nn.Module):
             stride = (math.ceil(h / level), math.ceil(w / level))
             pooling = (math.floor((kernel_size[0]*level-h+1)/2), math.floor((kernel_size[1]*level-w+1)/2))
 
-            # 选择池化方式 
             if self.pool_type == 'max_pool':
-                #tensor = F.max_pool2d(x, kernel_size=kernel_size, stride=stride, padding=pooling).view(num, -1)
                 tensor = F.max_pool2d(x, kernel_size=kernel_size, stride=stride, padding=pooling)
             else:
-                # tensor = F.avg_pool2d(x, kernel_size=kernel_size, stride=stride, padding=pooling).view(num, -1)
                 tensor = F.avg_pool2d(x, kernel_size=kernel_size, stride=stride, padding=pooling)
-            # 展开、拼接
             if (i == 0):
                 x_flatten = tensor.view(num, c, -1)
             else:
@@ -360,11 +333,9 @@ class HiViT(BaseBackbone):
             norm_layer=norm_layer if self.patch_norm else None)
         num_patches = self.patch_embed.num_patches
         
-        ### 修改的
         self.num_tokens = 2 
         self.add_cls_token = add_cls_token
         self.cls_token = nn.Parameter(torch.zeros(1, 1, end_dim))
-        # self.dist_token = nn.Parameter(torch.zeros(1, 1, embed_dim)) if distilled else None
         self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + self.num_tokens, end_dim))
         self.pos_drop = nn.Dropout(p=drop_rate)
         

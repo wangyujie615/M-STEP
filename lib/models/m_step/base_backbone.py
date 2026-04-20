@@ -89,15 +89,6 @@ class BaseBackbone(nn.Module):
         z14 = self.patch_embed14(z)
         # #
         prompt_ms = torch.cat([z18, z16, z14], dim=2).transpose(1, 2)
-        '''avgpool = nn.AvgPool2d(kernel_size=3, stride=3)
-        z18 = self.patch_embed18(z)
-        z16 = self.patch_embed16(z)
-        z14 = self.patch_embed14(z)
-        _, _, w, h = z16.shape
-        z18 = avgpool(z18).flatten(2).transpose(1, 2)
-        z16 = avgpool(z16).flatten(2).transpose(1, 2)
-        z14 = avgpool(z14).flatten(2).transpose(1, 2)
-        prompt_ms = torch.cat([z18, z16, z14], dim=-2)'''
         prompt_ms = self.MSPG(prompt_ms)
         
         z = self.patch_embed(z) # [60, 64, 4, 4, 128]
@@ -135,22 +126,16 @@ class BaseBackbone(nn.Module):
         x = combine_tokens(z, x, mode=self.cat_mode) #[20,448,512] 256+243 = 499
         if self.add_cls_token:
             x = torch.cat([query, x], dim=1)  #[B,500,512]
-        # x = combine_tokens(x, z,  mode=self.cat_mode)
         x = self.pos_drop(x)
 
         for blk in self.blocks[-self.num_main_blocks:]:
             x = blk(x,lens_z,lens_x)
-        # 注意2024/6/26 只使用MS
         x = recover_tokens(x, lens_z, lens_x, mode=self.cat_mode)
         
         tq_1,_,p = torch.split(x,[1,lens_z,lens_x],dim=1)
         k = torch.cat([tq_1, prompt_ms], dim=1)
         
-        # # 2024/7/16: 使用tpev5 attention+残差融合
-        # #                k = self.mamba(self.memory_norm(k))
-        # # only mamba
         k = self.memory(k)
-        # # 
         tq_2,_ = torch.split(k,[1,pn],dim=1)
         m = tq_1+tq_2
         m = self.sig(m)
@@ -158,7 +143,6 @@ class BaseBackbone(nn.Module):
         tq = self.tpe(tq)
         aux_dict = {"attn": None}
         x = self.norm_(x) # [1,681,512]
-        #print(p.shape)
         return x, tq, aux_dict
 
     def forward(self, z, x, **kwargs):

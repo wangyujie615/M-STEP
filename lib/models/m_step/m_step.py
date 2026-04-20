@@ -50,9 +50,6 @@ class M_STEP(nn.Module):
             
         out_dict = [] # 输出
         for i in range(len(search)):
-            # 使用相邻的两帧作为搜索帧
-            # track_query:表示传播的token 
-            # token_len:传播的token长度
             x, tq, aux_dict = self.backbone(z=template.copy(), x=search[i],
                                         return_last_attn=return_last_attn, track_query=self.track_query, token_len=self.token_len)
             feat_last = x
@@ -60,22 +57,9 @@ class M_STEP(nn.Module):
                 feat_last = x[-1]
                 
             enc_opt = feat_last[:, -self.feat_len_s:]  # encoder output for the search region (B, HW, C)
-            #vis = enc_opt[:,:,:].reshape(enc_opt.size(0),16,16,enc_opt.size(2))
-            #vis = vis.transpose(2,3).transpose(1,2)
-            # 可视化这一部分
             
-            # lm = self.memory_mix(z=template.copy(),x=x[:, :self.token_len]) # 混合记忆
             if self.backbone.add_cls_token:
-                # 想法一：进行存储然后筛选
-                # 想法二：使用一维Mamba进行时序信息的过滤
-                # 想法三：使用其他Backbone
-                self.track_query = tq.detach() # stop grad  (B, N, C) 获取前一帧的token
-                #self.track_query = lm.detach()
-                #self.track_query = self.memory_mix(z=template.copy(),x=self.track_query).detach()
-                # self.memory.append(self.track_query)
-            # 进行记忆的筛选
-            
-            # 这里是搜索帧与时序token交互  也可以设计一下这里 AQA里面的STM运算
+                self.track_query = tq.detach() 
             att = torch.matmul(enc_opt, x[:, :1].transpose(1, 2))  # (B, HW, N)  (B,HW,N)*(B,N,1) = (B)
             opt = (enc_opt.unsqueeze(-1) * att.unsqueeze(-2)).permute((0, 3, 2, 1)).contiguous()  # (B, HW, C, N) --> (B, N, C, HW)
             
@@ -93,7 +77,6 @@ class M_STEP(nn.Module):
         """
         enc_opt: output embeddings of the backbone, it can be (HW1+HW2, B, C) or (HW2, B, C)
         """
-        # opt = (enc_opt.unsqueeze(-1)).permute((0, 3, 2, 1)).contiguous()
         bs, Nq, C, HW = opt.size()
         opt_feat = opt.view(-1, C, self.feat_sz_s, self.feat_sz_s)
 
