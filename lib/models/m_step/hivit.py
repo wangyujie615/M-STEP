@@ -33,7 +33,6 @@ class Attention(nn.Module):
             q, k, v = qkv[0], qkv[1], qkv[2]  # make torchscript happy (cannot use tensor as tuple)
             
             attn = (q @ k.transpose(-2, -1)) * self.scale
-            # 2024/7/19 添加
             attn = attn.float().clamp(min=torch.finfo(torch.float32).min, max=torch.finfo(torch.float32).max)
             attn = attn.softmax(dim=-1)
             attn = self.attn_drop(attn)
